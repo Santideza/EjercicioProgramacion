@@ -25,7 +25,7 @@
                 <td>@producto.ComisionPct.ToString("F2")</td>
                 <td>@producto.MinMeses a @producto.MaxMeses</td>
                 <td>
-                    <button class="btn btn-primary">Simular</button>
+                    <a href="@Url.Action("Simulador", "Simulacion", new { productId = producto.Id })" class="btn btn-primary">Simular</a>
                 </td>
             </tr>
         }
