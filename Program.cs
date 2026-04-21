@@ -5,6 +5,11 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// Configurar cultura a es-PE
+var culturePE = new System.Globalization.CultureInfo("es-PE");
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = culturePE;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = culturePE;
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

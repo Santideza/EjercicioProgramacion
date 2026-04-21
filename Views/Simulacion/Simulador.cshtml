@@ -9,6 +9,8 @@
 <p>TEA: @Model.Tea.ToString("F2")% | Comisión: @Model.ComisionPct.ToString("F2")% | Plazo: @Model.MinMeses a @Model.MaxMeses meses</p>
 
 <form asp-action="Simulador" method="post">
+    @Html.AntiForgeryToken()
+    
     <input type="hidden" asp-for="ProductId" />
     <input type="hidden" asp-for="NombreProducto" />
     <input type="hidden" asp-for="Tea" />
@@ -16,16 +18,20 @@
     <input type="hidden" asp-for="MinMeses" />
     <input type="hidden" asp-for="MaxMeses" />
 
-    <div class="form-group">
-        <label asp-for="Monto">Monto (S/)</label>
-        <input asp-for="Monto" class="form-control" type="number" step="0.01" min="1000" max="1000000" />
-        <span asp-validation-for="Monto" class="text-danger"></span>
+    <div class="form-group mb-3">
+        <label asp-for="Monto" class="form-label">Monto (S/)</label>
+        <input asp-for="Monto" class="form-control" type="number" step="0.01" min="0.01" max="1000000" />
+        <span asp-validation-for="Monto" class="text-danger small d-block mt-1"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Meses">Meses</label>
-        <input asp-for="Meses" class="form-control" type="number" min="1" max="360" />
-        <span asp-validation-for="Meses" class="text-danger"></span>
+    <div class="form-group mb-3">
+        <label asp-for="Meses" class="form-label">Meses (@Model.MinMeses a @Model.MaxMeses)</label>
+        <input asp-for="Meses" class="form-control" type="number" min="1" max="600" />
+        <span asp-validation-for="Meses" class="text-danger small d-block mt-1"></span>
+        @if (!string.IsNullOrEmpty(Model.ErrorMeses))
+        {
+            <span class="text-danger small d-block mt-1">@Model.ErrorMeses</span>
+        }
     </div>
 
     <button type="submit" class="btn btn-primary">Calcular</button>
@@ -33,13 +39,17 @@
 
 @if (Model.Tem > 0)
 {
-    <h2>Resultados de la Simulación</h2>
-    <ul>
-        <li>TEM: @Model.Tem.ToString("F4")%</li>
-        <li>Cuota Mensual: S/ @Model.CuotaMensual.ToString("F2")</li>
-        <li>Comisión: S/ @Model.Comision.ToString("F2")</li>
-        <li>Costo Total: S/ @Model.CostoTotal.ToString("F2")</li>
-    </ul>
+    <h2 class="mt-5">Resultados de la Simulación</h2>
+    <div class="card">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>TEM:</strong> @Model.Tem.ToString("F6")%</li>
+                <li class="list-group-item"><strong>Cuota Mensual:</strong> S/ @Model.CuotaMensual.ToString("N2")</li>
+                <li class="list-group-item"><strong>Comisión:</strong> S/ @Model.Comision.ToString("N2")</li>
+                <li class="list-group-item"><strong>Costo Total:</strong> S/ @Model.CostoTotal.ToString("N2")</li>
+            </ul>
+        </div>
+    </div>
 }
 
 @section Scripts {
