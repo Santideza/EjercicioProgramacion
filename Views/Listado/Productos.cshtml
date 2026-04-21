@@ -1,0 +1,33 @@
+@model IEnumerable<EjercicioProgramacion.Models.ProductosCredito>
+
+@{
+    ViewData["Title"] = "Productos de Crédito";
+}
+
+<h1>Listado de Productos de Crédito</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>TEA (%)</th>
+            <th>Comisión (%)</th>
+            <th>Rango de Meses</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var producto in Model)
+        {
+            <tr>
+                <td>@producto.Nombre</td>
+                <td>@producto.Tea.ToString("F2")</td>
+                <td>@producto.ComisionPct.ToString("F2")</td>
+                <td>@producto.MinMeses a @producto.MaxMeses</td>
+                <td>
+                    <a href="@Url.Action("Simulador", "Simulacion", new { productId = producto.Id })" class="btn btn-primary">Simular</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
