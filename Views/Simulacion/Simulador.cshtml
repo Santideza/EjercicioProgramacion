@@ -8,6 +8,8 @@
 
 <p>TEA: @Model.Tea.ToString("F2")% | Comisión: @Model.ComisionPct.ToString("F2")% | Plazo: @Model.MinMeses a @Model.MaxMeses meses</p>
 
+<a href="@Url.Action("Productos", "Listado")" class="btn btn-secondary mb-3">Volver al Listado</a>
+
 <form asp-action="Simulador" method="post">
     <input type="hidden" asp-for="ProductId" />
     <input type="hidden" asp-for="NombreProducto" />
