@@ -1,0 +1,47 @@
+@model EjercicioProgramacion.Models.SimulacionViewModel
+
+@{
+    ViewData["Title"] = "Simulador de Crédito";
+}
+
+<h1>Simulador de Crédito - @Model.NombreProducto</h1>
+
+<p>TEA: @Model.Tea.ToString("F2")% | Comisión: @Model.ComisionPct.ToString("F2")% | Plazo: @Model.MinMeses a @Model.MaxMeses meses</p>
+
+<form asp-action="Simulador" method="post">
+    <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="NombreProducto" />
+    <input type="hidden" asp-for="Tea" />
+    <input type="hidden" asp-for="ComisionPct" />
+    <input type="hidden" asp-for="MinMeses" />
+    <input type="hidden" asp-for="MaxMeses" />
+
+    <div class="form-group">
+        <label asp-for="Monto">Monto (S/)</label>
+        <input asp-for="Monto" class="form-control" type="number" step="0.01" min="1000" max="1000000" />
+        <span asp-validation-for="Monto" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Meses">Meses</label>
+        <input asp-for="Meses" class="form-control" type="number" min="1" max="360" />
+        <span asp-validation-for="Meses" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Calcular</button>
+</form>
+
+@if (Model.Tem > 0)
+{
+    <h2>Resultados de la Simulación</h2>
+    <ul>
+        <li>TEM: @Model.Tem.ToString("F4")%</li>
+        <li>Cuota Mensual: S/ @Model.CuotaMensual.ToString("F2")</li>
+        <li>Comisión: S/ @Model.Comision.ToString("F2")</li>
+        <li>Costo Total: S/ @Model.CostoTotal.ToString("F2")</li>
+    </ul>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
